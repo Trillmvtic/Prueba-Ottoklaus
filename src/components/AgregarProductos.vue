@@ -1,0 +1,88 @@
+<template>
+  <div>
+    <v-container>
+      <h1>Agregar Productos</h1>
+      <v-form>
+        <v-container class="vcontainer">
+          <v-row>
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="juguete.codigo"
+                label="Código"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="juguete.nombre"
+                label="Nombre"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="juguete.stock"
+                label="Stock"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="juguete.precio"
+                label="Precio"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-btn
+                class="mt-2"
+                fab
+                color="green"
+                @click="
+                  AgregarProducto();
+                  ClearData();
+                "
+              >
+                <v-icon dark>
+                  mdi-plus
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+    </v-container>
+  </div>
+</template>
+
+<script>
+import { mapActions } from "vuex";
+export default {
+  name: "AgregarProductos",
+  data: () => ({
+    juguete: {
+      codigo: "",
+      nombre: "",
+      stock: "",
+      precio: "",
+    },
+  }),
+  methods: {
+    ...mapActions("Datos", ["addData"]),
+    AgregarProducto() {
+      this.addData(this.juguete);
+    },
+    ClearData() {
+      this.juguete.codigo = "";
+      this.juguete.nombre = "";
+      this.juguete.precio = "";
+      this.juguete.stock = "";
+    },
+  },
+};
+</script>
+
+<style>
+.vcontainer{
+    background-color: white;
+}
+</style>

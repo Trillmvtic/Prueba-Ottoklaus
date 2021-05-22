@@ -1,18 +1,70 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-container>
+      <v-app-bar app color="dark" dark>
+        <h1 class="titleinv">Inventario Otto Klaus</h1>
+        <v-spacer></v-spacer>
+
+        <v-btn class="align-content-end" color="error" @click="logout">
+          Salir
+        </v-btn>
+      </v-app-bar>
+
+      <TablaDatos />
+      <v-btn @click="showAdd" depressed>
+        <span v-if="!add">Agregar Producto</span>
+        <span v-if="add">Cerrar Formulario</span>
+      </v-btn>
+      <AgregarProductos v-if="add" />
+    </v-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import TablaDatos from "@/components/TablaDatos.vue";
+import AgregarProductos from "@/components/AgregarProductos.vue";
+import { mapMutations, mapState } from "vuex";
+import firebase from "firebase";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
+    TablaDatos,
+    AgregarProductos,
+    
+  },
+  computed: {
+    ...mapState("Datos", ["add"]),
+  },
+  methods: {
+  
+    ...mapMutations("Datos", ["MostrarAdd"]),
+
+    showAdd() {
+      this.MostrarAdd();
+    },
+
+   
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("login");
+        })
+        .catch((e) => {
+          console.error("Sign Out Error", e);
+        });
+    },
+}
 }
 </script>
+
+<style lang="scss">
+.home {
+  padding: 20px 0;
+}
+
+.titleinv {
+  color: white;
+}
+</style>
